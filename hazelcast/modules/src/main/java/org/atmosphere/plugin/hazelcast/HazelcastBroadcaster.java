@@ -19,6 +19,7 @@ package org.atmosphere.plugin.hazelcast;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.ITopic;
 import com.hazelcast.core.MessageListener;
+import com.hazelcast.core.Message;
 import org.atmosphere.cpr.AtmosphereConfig;
 import org.atmosphere.util.AbstractBroadcasterProxy;
 import org.slf4j.Logger;
@@ -48,8 +49,8 @@ public class HazelcastBroadcaster extends AbstractBroadcasterProxy {
         topic = Hazelcast.<String>getTopic(getID());
         topic.addMessageListener(new MessageListener<String>() {
             @Override
-            public void onMessage(String message) {
-                broadcastReceivedMessage(message);
+            public void onMessage(Message<String> message) {
+                broadcastReceivedMessage(message.getMessageObject());
             }
         });
     }
